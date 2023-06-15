@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Результат теста</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<section class="container">
+    <h2>Результат теста</h2>
+    <p class="test-result" th:text="'Ваш шанс на диабет составляет ' + ${form.weight}" />
+</section>
+</body>
+</html>

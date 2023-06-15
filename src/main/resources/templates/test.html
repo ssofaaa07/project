@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Название теста</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<section class="container">
+    <h2>Название теста</h2>
+    <form class="form" action="#" th:action="@{/test}" th:object="${form}" method="post">
+        <div class="question">
+            <p class="question__text">Ваш пол?</p>
+            <div class="question__bottom">
+                <div class="form__radio-group">
+                    <div class="form__radio-btn">
+                        <input type="radio" required value="man" id="radio-1" name="sex" th:field="*{sex}" />
+                        <label for="radio-1">Мужчина</label>
+                    </div>
+                    <div class="form__radio-btn">
+                        <input type="radio" required value="woman" id="radio-2" name="sex" th:field="*{sex}" />
+                        <label for="radio-2">Женщина</label>
+                    </div>
+                </div>
+                <p class="question__caption">Вопрос 1/7</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <p class="question__text">Ваш возраст?</p>
+            <div class="question__bottom">
+                <input class="form__input-field" required placeholder="Введите свой возраст"
+                       type="number"
+                       th:field="*{age}"
+                >
+                <p class="question__caption">Вопрос 2/7</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <p class="question__text">Имеются ли у вас проблемы с сердцем?</p>
+            <div class="question__bottom">
+                <div class="form__radio-group">
+                    <div class="form__radio-btn">
+                        <input type="radio" required value="yes" id="radio-3" name="heart-problems" th:field="*{heartProblems}" />
+                        <label for="radio-3">Да</label>
+                    </div>
+                    <div class="form__radio-btn">
+                        <input type="radio" required value="no" id="radio-4" name="heart-problems" th:field="*{heartProblems}" />
+                        <label for="radio-4">Нет</label>
+                    </div>
+                </div>
+                <p class="question__caption">Вопрос 3/7</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <p class="question__text">Наблюдали ли вы у себя в последнее время повышенное давление?</p>
+            <div class="question__bottom">
+                <div class="form__radio-group">
+                    <div class="form__radio-btn">
+                        <input required type="radio" value="yes" id="radio-5" name="pressure" th:field="*{pressure}" />
+                        <label for="radio-5">Да</label>
+                    </div>
+                    <div class="form__radio-btn">
+                        <input required type="radio" value="no" id="radio-6" name="pressure" th:field="*{pressure}" />
+                        <label for="radio-6">Нет</label>
+                    </div>
+                </div>
+                <p class="question__caption">Вопрос 4/7</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <p class="question__text">Как часто вы курите?</p>
+            <div class="question__bottom">
+                <div class="form__radio-group">
+                    <div class="form__radio-btn">
+                        <input required type="radio" value="never" id="radio-7" name="smoking" th:field="*{smoking}" />
+                        <label for="radio-7">Никогда</label>
+                    </div>
+                    <div class="form__radio-btn">
+                        <input required type="radio" value="sometimes" id="radio-8" name="smoking" th:field="*{smoking}" />
+                        <label for="radio-8">Иногда</label>
+                    </div>
+                    <div class="form__radio-btn">
+                        <input required  type="radio" value="regularly" id="radio-9" name="smoking" th:field="*{smoking}" />
+                        <label for="radio-9">Регулярно</label>
+                    </div>
+                </div>
+                <p class="question__caption">Вопрос 5/7</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <p class="question__text">Какой у вас рост?</p>
+            <div class="question__bottom">
+                <input required class="form__input-field" placeholder="Введите свой рост" type="number" th:field="*{height}">
+                <p class="question__caption">Вопрос 6/7</p>
+            </div>
+        </div>
+
+        <div class="question">
+            <p class="question__text">Какой у вас вес?</p>
+            <div class="question__bottom">
+                <input required class="form__input-field" placeholder="Введите свой вес" type="number" th:field="*{weight}">
+                <p class="question__caption">Вопрос 7/7</p>
+            </div>
+        </div>
+        <button class="form__button">Посмотреть результаты</button>
+    </form>
+</section>
+</body>
+</html>

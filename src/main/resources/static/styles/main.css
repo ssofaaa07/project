@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #000000;
+    margin: 0;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    max-width: 1120px;
+}
+
+header {
+    background: #DEDEDE;
+    border-radius: 0px 0px 40px 40px;
+    margin-bottom: 120px;
+    height: 140px;
+}
+
+header h1 {
+    margin: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 900;
+    font-size: 72px;
+    line-height: 87px;
+    text-align: center;
+    color: #CBCBCB;
+    text-transform: uppercase;
+    padding-top: 17px;
+}
+
+h2 {
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 65px;
+    text-align: center;
+    color: #000000;
+    margin-bottom: 65px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 60px;
+    margin-bottom: 50px;
+}
+
+.form__radio-group {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+}
+
+.form__radio-btn {
+    display: inline-block;
+}
+
+.form__radio-btn input[type=radio] {
+    display: none;
+}
+
+.form__radio-btn label {
+    display: inline-block;
+    cursor: pointer;
+    padding: 16px 26px;
+    font-size: 20px;
+    line-height: 27px;
+    border: 1px solid #000000;
+    border-radius: 20px;
+    user-select: none;
+}
+
+.form__radio-btn input[type=radio]:checked + label {
+    background: #EFEFFF;
+    border-color: #EFEFFF;
+}
+
+.form__button {
+    cursor: pointer;
+    padding: 17px 23px;
+    font-size: 20px;
+    line-height: 27px;
+    text-align: center;
+    border-radius: 20px;
+    background: white;
+    width: 280px;
+    align-self: center;
+}
+
+.form__input-field {
+    padding: 16px 26px;
+    font-size: 20px;
+    line-height: 27px;
+    border: 1px solid #000000;
+    border-radius: 20px;
+}
+
+.form__input-field::placeholder {
+    opacity: .7;
+}
+
+.form__input-field:focus {
+    outline: none;
+    background: #EFEFFF;
+}
+
+.question {
+    padding: 60px;
+    border: 1px solid #000000;
+    border-radius: 40px;
+}
+
+.question__text {
+    width: 55%;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 49px;
+    margin-bottom: 58px;
+}
+
+.question__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.question__caption {
+    font-size: 24px;
+    line-height: 33px;
+    color: #B6B6B6;
+}
+
+.test-result {
+    font-size: 32px;
+    line-height: 65px;
+    text-align: center;
+    color: #000000;
+}
