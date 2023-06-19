@@ -12,7 +12,7 @@ public class Form {
     private Float weight;
     ArrayList<String> list = new ArrayList<String>();
 
-    private Float result;
+    private String result;
 
     public Float getHeight() {
         return height;
@@ -69,7 +69,7 @@ public class Form {
     public void setWeight(Float weight) {
         this.weight = weight;
     }
-    public void setResult(Float result) {
+    public void setResult(String result) {
         this.result = result;
     }
 

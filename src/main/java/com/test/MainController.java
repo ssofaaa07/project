@@ -22,8 +22,8 @@ public class MainController {
     * */
     @PostMapping("/test")
     public String submitTestForm(@ModelAttribute Form form, Model model) {
-        form.setResult(1.0F);
         model.addAttribute("form", form);
+        form.setResult("res");
         return "result";
     }
 }
