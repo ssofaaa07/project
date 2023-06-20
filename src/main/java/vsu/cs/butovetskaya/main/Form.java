@@ -115,27 +115,27 @@ public class Form {
     }
 
     public void collectInputData() {
-        if (Objects.equals(sex, "male")) {
+        if (Objects.equals(sex, "Мужчина")) {
             inputData[0] = 1.0;
-        } else if (Objects.equals(sex, "female")) {
+        } else if (Objects.equals(sex, "Женщина")) {
             inputData[0] = 0.0;
         }
         inputData[1] = age;
-        if (Objects.equals(pressure, "yes")) {
+        if (Objects.equals(pressure, "Да")) {
             inputData[2] = 1.0;
-        } else if (Objects.equals(pressure, "no")) {
+        } else if (Objects.equals(pressure, "Нет")) {
             inputData[2] = 0.0;
         }
-        if (Objects.equals(heartProblems, "yes")) {
+        if (Objects.equals(heartProblems, "Да")) {
             inputData[3] = 1.0;
-        } else if (Objects.equals(heartProblems, "no")) {
+        } else if (Objects.equals(heartProblems, "Нет")) {
             inputData[3] = 0.0;
         }
-        if (Objects.equals(smoking, "sometimes")) {
+        if (Objects.equals(smoking, "Иногда")) {
             inputData[4] = 1.0;
-        } else if (Objects.equals(sex, "never")) {
+        } else if (Objects.equals(sex, "Никогда")) {
             inputData[4] = 0.0;
-        } else if (Objects.equals(sex, "regularly")) {
+        } else if (Objects.equals(sex, "Регулярно")) {
             inputData[4] = 2.0;
         }
         inputData[5] = Math.round(weight / Math.pow(height / 100, 2));
@@ -158,10 +158,14 @@ public class Form {
         String[][] trainTable = w.readTrainTable("diabetes_prediction_dataset1.xlsx");
         trainTable = w.correctTrainTableDiabetes(trainTable);
 
-        DecisionTreeLearning dtl = new DecisionTreeLearning(trainTable, trainTable.length, 25, trainTable.length);
+        // здесь параметры могут меняться от случая к случаю - нужно подбирать под таблицу тренировки
+        DecisionTreeLearning dtl = new DecisionTreeLearning(trainTable, 10, 25, trainTable.length);
         dtl.createTreeNode();
 
-        setResultDiabet(dtl.dtree.result(inputData));
+        dtl.dtree.print();
+        System.out.println(dtl.dtree.countLeaf);
+
+        setResultDiabet(dtl.dtree.checkResult(inputData));
         result();
     }
 

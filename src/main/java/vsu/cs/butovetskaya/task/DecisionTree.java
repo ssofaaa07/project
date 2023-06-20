@@ -1,6 +1,7 @@
 package vsu.cs.butovetskaya.task;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DecisionTree {
     int depthOfTree;
@@ -12,12 +13,12 @@ public class DecisionTree {
         double[] question;
         double entropy;
         int samples;
-        ArrayList<Integer> value;
-        public DecisionTreeNode leftNode;
+        int[] value;
+        DecisionTreeNode leftNode;
         DecisionTreeNode rightNode;
         boolean leaf;
 
-        public DecisionTreeNode(double[] question, double entropy, int samples, ArrayList<Integer> value) {
+        public DecisionTreeNode(double[] question, double entropy, int samples, int[] value) {
             this.question = question;
             this.entropy = entropy;
             this.samples = samples;
@@ -36,7 +37,7 @@ public class DecisionTree {
             return samples;
         }
 
-        public ArrayList<Integer> getValue() {
+        public int[] getValue() {
             return value;
         }
 
@@ -53,7 +54,7 @@ public class DecisionTree {
         }
     }
 
-    public double result(double[] ans) {
+    public double checkResult(double[] ans) {
         double result = -1;
         for (int i = 0; i <= depthOfTree; i++) {
             if (i == 0) {
@@ -62,9 +63,9 @@ public class DecisionTree {
             if (node.leaf) {
                 int maxCount = 0;
                 int maxCol = -1;
-                for (int j = 0; j < node.value.size(); j++) {
-                    if (maxCount < node.value.get(j)) {
-                        maxCount = node.value.get(j);
+                for (int j = 0; j < node.value.length; j++) {
+                    if (maxCount < node.value[j]) {
+                        maxCount = node.value[j];
                         maxCol = j;
                     }
                 }
@@ -85,7 +86,7 @@ public class DecisionTree {
     }
 
     private void print(DecisionTreeNode node, String prefix, boolean isTail) {
-        System.out.println(prefix + (isTail ? "└── " : "├── ") + node.samples + " " + node.value);
+        System.out.println(prefix + (isTail ? "└── " : "├── ") + node.samples + " " + Arrays.toString(node.value));
         if (node.leftNode != null) {
             print(node.leftNode, prefix + (isTail ? "    " : "│   "), node.rightNode == null);
         }

@@ -49,8 +49,11 @@ public class DecisionTreeLearning {
         this.trainTable = trainTable;
     }
 
+    /**
+     * Поиск вопросов таблицы. Вычисляются все возможные вопросы по значениям атрибутов.
+     * Берется среднее по каждой паре отсортированного массива значений атрибута.
+     */
     public void findQuestions() {
-        if (currentTable.size() > 1) {
             this.questions = new double[currentTable.size() - 1][currentTable.get(0).length - 1];
             double[] sortedArr = new double[currentTable.size()];
             for (int c = 0; c < currentTable.get(0).length - 1; c++) {
@@ -64,15 +67,16 @@ public class DecisionTreeLearning {
                 }
                 Arrays.fill(sortedArr, '0');
             }
-        } else {
-            this.questions = new double[1][1];
-            questions[0][0] = 0;
-        }
     }
 
+    /**
+     * Создание листа классов. В случае с таблицей диабета их всего 2:
+     * 0 - риска развития диабета нет
+     * 1 - риск развития диабета есть
+     */
     public void createListOfClasses() {
         HashSet<Integer> setOfClasses = new HashSet<>();
-        int item = -1;
+        int item;
         for (int i = 1; i < trainTable.length; i++) {
             item = (int) Double.parseDouble(trainTable[i][trainTable[0].length - 1]);
             setOfClasses.add(item);
@@ -81,34 +85,60 @@ public class DecisionTreeLearning {
         listOfClasses.addAll(setOfClasses);
     }
 
+    /**
+     * Подсчёт прироста информации.
+     * Энтропия текущей таблицы -
+     * - (отношение размеров таблицы левого разбиения к текущей таблице * энтропия будущего левого разбиения по текущему вопросу) -
+     * - (отношение размеров таблицы правого разбиения к текущей таблице * энтропия будущего правого разбиения по текущему вопросу)
+     *
+     * Конечное разбиение проиходит по тому вопросу, чей прирост информации был максимален.
+     * @return прирост информации
+     */
     public double infoGain() {
         return entropy(currentTable) - ((double) currentTableLeft.size() / currentTable.size()) * entropy(currentTableLeft) -
                 ((double) currentTableRight.size() / currentTable.size()) * entropy(currentTableRight);
     }
 
+    /**
+     * Создание таблиц левого и правого поддерева по конкретному вопросу.
+     * @param row - строка вопроса (значение)
+     * @param col - столбик вопроса (атрибут)
+     */
     public void createCurrentTables(int row, int col) {
         currentTableLeft = new ArrayList<>();
         currentTableRight = new ArrayList<>();
-        for (int r = 0; r < currentTable.size(); r++) {
-            if (currentTable.get(r)[col] <= questions[row][col]) {
-                currentTableLeft.add(currentTable.get(r));
+        for (double[] str : currentTable) {
+            if (str[col] <= questions[row][col]) {
+                currentTableLeft.add(str);
             } else {
-                currentTableRight.add(currentTable.get(r));
+                currentTableRight.add(str);
             }
         }
 
     }
 
-    public double chance(List<double[]> table, double item) {
+    /**
+     * Подсчет вероятности. Отношение кол-ва строк, относящихся к классу classItem, к общему кол-ву строк.
+     * @param table - таблица, для которой нужно подсчитать вероятность
+     * @param classItem - класс, для которого рассчитывается вероятность в данной таблице
+     * @return вероятность
+     */
+    public double chance(List<double[]> table, double classItem) {
         int count = 0;
-        for (int i = 0; i < table.size(); i++) {
-            if (table.get(i)[currentTable.get(0).length - 1] == item) {
+        for (double[] str : table) {
+            if (str[currentTable.get(0).length - 1] == classItem) {
                 count++;
             }
         }
         return (double) count / (table.size());
     }
 
+    /**
+     * Сбор всех значений прироста информации по всем вопросам текущей таблицы.
+     * Координаты значения прироста информации совпадают с координатами вопросов текущей таблицы.
+     *
+     * Конечное разбиение проиходит по тому вопросу, чей прирост информации был максимален.
+     */
     public void compareInfoGain() {
         this.currentInfoGain = new double[currentTable.size() - 1][currentTable.get(0).length - 1];
         for (int r = 0; r < questions.length; r++) {
@@ -119,10 +149,15 @@ public class DecisionTreeLearning {
         }
     }
 
+    /**
+     * Расчет энтропии Шенона.
+     * @param table таблица, для которой нужно подсчитать энтропию
+     * @return значение энтропии
+     */
     public double entropy(List<double[]> table) {
         double entropy = 0;
-        for (int i = 0; i < listOfClasses.size(); i++) {
-            double p = chance(table, listOfClasses.get(i));
+        for (Integer classItem : listOfClasses) {
+            double p = chance(table, classItem);
             if (p == 0) {
                 entropy += 0;
             } else {
@@ -132,26 +167,36 @@ public class DecisionTreeLearning {
         return -entropy;
     }
 
-    public double[] findMaxEntropy() {
-        double maxEntropy = -1;
-        int colOfMaxEntropy = -1;
-        int rowOfMaxEntropy = -1;
-        double queOfMaxEntropy = questions[0][0];
+    /**
+     * Нахождение максимального прироста информации.
+     *
+     * Для удобства сделан такой вывод
+     * @return [значение энтропии, строка энтропии (по которой можно узнать значение вопроса из questions),
+     * столбец энтропии (по которому можно узнать атрибут вопроса из questions)]
+     */
+    public double[] findMaxGain() {
+        double maxGain = -1;
+        int colOfMaxGain = -1;
+        int rowOfMaxGain = -1;
         for (int r = 0; r < currentInfoGain.length; r++) {
             for (int c = 0; c < currentInfoGain[0].length; c++) {
-                if (maxEntropy < currentInfoGain[r][c]) {
-                    maxEntropy = currentInfoGain[r][c];
-                    rowOfMaxEntropy = r;
-                    colOfMaxEntropy = c;
-                    queOfMaxEntropy = questions[r][c];
+                if (maxGain < currentInfoGain[r][c]) {
+                    maxGain = currentInfoGain[r][c];
+                    rowOfMaxGain = r;
+                    colOfMaxGain = c;
                 }
             }
         }
-        return new double[]{maxEntropy, rowOfMaxEntropy, colOfMaxEntropy, queOfMaxEntropy};
+        return new double[]{maxGain, rowOfMaxGain, colOfMaxGain};
     }
 
-    public ArrayList<Integer> countClasses() {
-        ArrayList<Integer> countClasses = new ArrayList<>();
+    /**
+     * Подсчёт кол-ва строчек в текущей таблице, относящихся к определенному классу из listOfClasses.
+     * Нужно для поля value в узле дерева.
+     * @return лист с кол-вом каждого класса
+     */
+    public int[] countClasses() {
+        int[] countClasses = new int[listOfClasses.size()];
         int count = 0;
         for (int i = 0; i < listOfClasses.size(); i++) {
             for (int r = 0; r < currentTable.size(); r++) {
@@ -159,42 +204,57 @@ public class DecisionTreeLearning {
                     count++;
                 }
             }
-            countClasses.add(count);
+            countClasses[i] = count;
             count = 0;
         }
         return countClasses;
     }
 
-    public void start() {
-        this.currentTableLeft = new ArrayList<>();
-        this.currentTableRight = new ArrayList<>();
-        findQuestions();
+    /**
+     * Является ли разбиение листом дерева?
+     * @param countClasses кол-во строк, относящихся к определённому классу
+     * @return true/false
+     */
+    private boolean isLeaf(int[] countClasses) {
+        for (int item : countClasses) {
+            if (item == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public DecisionTree.DecisionTreeNode createTreeNode() {
-        DecisionTree.DecisionTreeNode dtreenode = new DecisionTree.DecisionTreeNode(new double[]{0, 0}, 0, 0, new ArrayList<Integer>());
-        this.start();
-        ArrayList<Integer> countClasses = countClasses();
-        if (!countClasses.contains(0) && currentTable.size() > minSamplesLeaf) {
+        DecisionTree.DecisionTreeNode dtreenode;
+        this.currentTableLeft = new ArrayList<>();
+        this.currentTableRight = new ArrayList<>();
+        findQuestions();
+        if (trainTable.length - 1 == currentTable.size()) {
+            dtree.depthOfTree = 0;
+            dtree.countLeaf = 0;
+        }
+        int[] countClasses = countClasses();
+        if (!isLeaf(countClasses) && currentTable.size() > minSamplesLeaf && dtree.depthOfTree <= maxDepth && dtree.countLeaf <= maxLeafNodes) {
             compareInfoGain();
-            double[] question = findMaxEntropy();
+            double[] question = findMaxGain();
             double ent = question[0];
             int queRow = (int) question[1];
             int queCol = (int) question[2];
-            double que = question[3];
 
-            dtreenode = new DecisionTree.DecisionTreeNode(new double[]{queCol, que}, ent, currentTable.size(), countClasses);
+            dtreenode = new DecisionTree.DecisionTreeNode(new double[]{queCol, questions[queRow][queCol]}, ent, currentTable.size(), countClasses);
 
             if (trainTable.length - 1 == currentTable.size()) {
                 dtree.root = dtreenode;
-                dtree.depthOfTree = 0;
             }
             dtree.depthOfTree += 1;
-            dtreenode.setLeaf(false);
+            dtreenode.leaf = false;
+
             ArrayList<double[]> oldCurrentTable = currentTable;
+
             createCurrentTables(queRow, queCol);
             this.currentTable = currentTableLeft;
             dtreenode.setLeftNode(this.createTreeNode());
+
             this.currentTable = oldCurrentTable;
             findQuestions();
             createCurrentTables(queRow, queCol);

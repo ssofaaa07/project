@@ -16,12 +16,7 @@ public class MainController {
         model.addAttribute("form", form);
         return "test";
     }
-    /*
-    * Здесь отправка формы.
-    * Можно вытаскивать все введенные значения,
-    * передавать их в алгоритм.
-    * Результат алгоритма использовать на странице result.html
-    * */
+
     @PostMapping("/test")
     public String submitTestForm(@ModelAttribute Form form, Model model) throws IOException, InvalidFormatException {
         model.addAttribute("form", form);
