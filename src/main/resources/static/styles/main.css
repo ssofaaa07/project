@@ -39,6 +39,8 @@ h2 {
     font-size: 48px;
     line-height: 65px;
     text-align: center;
+    background-color: #EFEFFF;
+    border-radius: 20px;
     color: #000000;
     margin-bottom: 65px;
 }
@@ -115,11 +117,17 @@ h2 {
     border-radius: 40px;
 }
 
+.input {
+    padding: 30px;
+    border: 1px solid #000000;
+    border-radius: 40px;
+}
+
 .question__text {
     width: 55%;
     font-weight: 400;
     font-size: 36px;
-    line-height: 49px;
+    line-height: 35px;
     margin-bottom: 58px;
 }
 
@@ -137,7 +145,16 @@ h2 {
 
 .test-result {
     font-size: 32px;
-    line-height: 65px;
+    line-height: 30px;
     text-align: center;
+    font-weight: 600;
+    margin-bottom: 65px;
     color: #000000;
+}
+
+.input-data {
+    font-size: 18px;
+    line-height: 15px;
+    text-align: left;
+    color: #000002;
 }

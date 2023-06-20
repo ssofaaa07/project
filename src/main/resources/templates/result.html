@@ -8,7 +8,18 @@
 <body>
 <section class="container">
     <h2>Результат теста</h2>
-    <p class="test-result" th:text="'Ваш шанс на диабет составляет ' + ${form.weight}" />
+    <p class="test-result" th:text="${form.getResult()}" />
+    <div class="input">
+        <p class="input-data" th:text="'Ваш пол? - ' + ${form.getSex()}"></p>
+        <p class="input-data" th:text="'Ваш возраст? - ' + ${form.getAge()}"></p>
+        <p class="input-data" th:text="'Наблюдали ли вы у себя в последнее время повышенное давление? - ' + ${form.getPressure()}"></p>
+        <p class="input-data" th:text="'Имеются ли у вас проблемы с сердцем? - ' + ${form.getHeartProblems()}"></p>
+        <p class="input-data" th:text="'Как часто вы курите? - ' + ${form.getSmoking()}"></p>
+        <p class="input-data" th:text="'Какой у вас рост? - ' + ${form.getHeight()} + ' см'"></p>
+        <p class="input-data" th:text="'Какой у вас вес? - ' + ${form.getWeight()} + ' кг'"></p>
+        <p class="input-data" th:text="'Какой у вас уровень HbA1c? - ' + ${form.getHbA1c()}"></p>
+        <p class="input-data" th:text="'Какой у вас уровень глюкозы в крови? - ' + ${form.getGlucose()}"></p>
+    </div>
 </section>
 </body>
 </html>
