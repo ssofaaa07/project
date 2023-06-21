@@ -212,12 +212,12 @@ public class DecisionTreeLearning {
 
     /**
      * Является ли разбиение листом дерева?
-     * @param countClasses кол-во строк, относящихся к определённому классу
+     * @param countClasses кол-во строк в таблице, относящихся к определённому классу
      * @return true/false
      */
     private boolean isLeaf(int[] countClasses) {
-        for (int item : countClasses) {
-            if (item == 0) {
+        for (int classItem : countClasses) {
+            if (classItem == 0) {
                 return true;
             }
         }
