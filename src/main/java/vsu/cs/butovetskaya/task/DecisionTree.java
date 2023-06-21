@@ -54,7 +54,7 @@ public class DecisionTree {
         }
     }
 
-    public double checkResult(double[] ans) {
+    public int[] checkResult(double[] ans) {
         double result = -1;
         for (int i = 0; i <= depthOfTree; i++) {
             if (i == 0) {
@@ -78,7 +78,7 @@ public class DecisionTree {
                 node = node.rightNode;
             }
         }
-        return result;
+        return node.value;
     }
 
     public void print() {

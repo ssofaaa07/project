@@ -112,7 +112,7 @@
         <div class="question">
             <p class="question__text">Какой у вас уровень HbA1c? Средний уровень сахара в крови за последние 2-3 месяца.</p>
             <div class="question__bottom">
-                <input required class="form__input-field" placeholder="Введите свой вес" type="number" th:field="*{HbA1c}">
+                <input required class="form__input-field" placeholder="Введите свой вес" type="number" step="any" th:field="*{HbA1c}">
                 <p class="question__caption">Вопрос 8/9</p>
             </div>
         </div>
@@ -120,7 +120,7 @@
         <div class="question">
             <p class="question__text">Какой у вас уровень глюкозы в крови?</p>
             <div class="question__bottom">
-                <input required class="form__input-field" placeholder="Введите свой вес" type="number" th:field="*{glucose}">
+                <input required class="form__input-field" placeholder="Введите свой вес" type="number" step="any" th:field="*{glucose}">
                 <p class="question__caption">Вопрос 9/9</p>
             </div>
         </div>

@@ -16,7 +16,7 @@ public class WorkWithTrainTable {
     public String[][] readTrainTable(String filename) throws IOException, InvalidFormatException {
         FileInputStream fis = new FileInputStream(filename);
         Workbook wb = new XSSFWorkbook(fis);
-        String[][] result = new String[1967][9];
+        String[][] result = new String[2000][9];
         Sheet sheet = wb.getSheetAt(0);
         int i = 0, j = 0;
         Iterator<Row> rowIterator = sheet.rowIterator();
@@ -39,7 +39,7 @@ public class WorkWithTrainTable {
             }
             j = 0;
             i++;
-            if (i == 1967) {
+            if (i == 2000) {
                 break;
             }
         }

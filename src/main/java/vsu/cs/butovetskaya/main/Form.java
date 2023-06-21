@@ -5,7 +5,10 @@ import vsu.cs.butovetskaya.task.DecisionTreeLearning;
 import vsu.cs.butovetskaya.task.WorkWithTrainTable;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
+
+import static java.lang.Long.sum;
 
 public class Form {
     private String sex;
@@ -17,8 +20,9 @@ public class Form {
     private Double weight;
     private Double HbA1c;
     private Double glucose;
-    private Double resultDiabet;
+    private int[] resultDiabet;
     public String result;
+    public double chanceDiabet;
 
     private double[] inputData = new double[8];
 
@@ -58,12 +62,16 @@ public class Form {
         this.glucose = glucose;
     }
 
-    public void setResultDiabet(Double resultDiabet) {
+    public void setResultDiabet(int[] resultDiabet) {
         this.resultDiabet = resultDiabet;
     }
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public void setChanceDiabet(double chanceDiabet) {
+        this.chanceDiabet = chanceDiabet;
     }
 
     public String getSex() {
@@ -102,7 +110,7 @@ public class Form {
         return glucose;
     }
 
-    public Double getResultDiabet() {
+    public int[] getResultDiabet() {
         return resultDiabet;
     }
 
@@ -112,6 +120,10 @@ public class Form {
 
     public double[] getInputData() {
         return inputData;
+    }
+
+    public double getChanceDiabet() {
+        return chanceDiabet;
     }
 
     public void collectInputData() {
@@ -144,10 +156,18 @@ public class Form {
     }
 
     public void result() {
-        if (resultDiabet == 1) {
+        int sum = 0;
+        for (int i = 0; i < resultDiabet.length; i++) {
+            sum += resultDiabet[i];
+        }
+        setChanceDiabet(((double) resultDiabet[1] / sum) * 100);
+        if (chanceDiabet >= 50) {
             this.setResult("Вы находитесь в зоне риска развития диабета. Рекомендуем сдать соответствующие анализы и следить за своим здоровьем.");
         } else {
             this.setResult("Бояться нечего. Вы не находитесь в зоне риска развития диабета.");
+        }
+        if (chanceDiabet == 100) {
+            chanceDiabet = 99.9;
         }
     }
 
@@ -159,13 +179,14 @@ public class Form {
         trainTable = w.correctTrainTableDiabetes(trainTable);
 
         // здесь параметры могут меняться от случая к случаю - нужно подбирать под таблицу тренировки
-        DecisionTreeLearning dtl = new DecisionTreeLearning(trainTable, 10, 25, trainTable.length);
+        DecisionTreeLearning dtl = new DecisionTreeLearning(trainTable, 50, 40);
         dtl.createTreeNode();
 
         dtl.dtree.print();
         System.out.println(dtl.dtree.countLeaf);
 
         setResultDiabet(dtl.dtree.checkResult(inputData));
+
         result();
     }
 

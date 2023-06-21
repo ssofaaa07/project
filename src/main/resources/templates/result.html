@@ -8,6 +8,7 @@
 <body>
 <section class="container">
     <h2>Результат теста</h2>
+    <p class="test-result" th:text="'Вероятность развития диабета = ' + ${form.getChanceDiabet()}" />
     <p class="test-result" th:text="${form.getResult()}" />
     <div class="input">
         <p class="input-data" th:text="'Ваш пол? - ' + ${form.getSex()}"></p>

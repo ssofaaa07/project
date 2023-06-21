@@ -13,7 +13,6 @@ public class DecisionTreeLearning {
     double[][] questions;
     int maxDepth = 10000;
     int minSamplesLeaf = 1;
-    int maxLeafNodes = 10000;
     public DecisionTree dtree = new DecisionTree();
 
     public DecisionTreeLearning(String[][] trainTable) {
@@ -29,7 +28,7 @@ public class DecisionTreeLearning {
         createListOfClasses();
     }
 
-    public DecisionTreeLearning(String[][] trainTable, int maxDepth, int minSamplesLeaf, int maxLeafNodes) {
+    public DecisionTreeLearning(String[][] trainTable, int maxDepth, int minSamplesLeaf) {
         this.trainTable = trainTable;
         this.currentTable = new ArrayList<>();
         double[][] arr = new double[trainTable.length - 1][trainTable[0].length];
@@ -42,7 +41,6 @@ public class DecisionTreeLearning {
         createListOfClasses();
         this.maxDepth = maxDepth;
         this.minSamplesLeaf = minSamplesLeaf;
-        this.maxLeafNodes = maxLeafNodes;
     }
 
     public void setTrainTable(String[][] trainTable) {
@@ -234,7 +232,7 @@ public class DecisionTreeLearning {
             dtree.countLeaf = 0;
         }
         int[] countClasses = countClasses();
-        if (!isLeaf(countClasses) && currentTable.size() > minSamplesLeaf && dtree.depthOfTree <= maxDepth && dtree.countLeaf <= maxLeafNodes) {
+        if (!isLeaf(countClasses) && currentTable.size() > minSamplesLeaf && dtree.depthOfTree <= maxDepth) {
             compareInfoGain();
             double[] question = findMaxGain();
             double ent = question[0];
